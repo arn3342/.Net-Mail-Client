@@ -1,0 +1,268 @@
+﻿<Window x:Class="EmailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TingTong_Mail"
+        mc:Ignorable="d"
+        Title="EmailWindow" Height="591.862" Width="994.723">
+    <Window.Resources>
+        <Storyboard x:Key="Saved" FillBehavior="Stop">
+            <DoubleAnimation
+                Storyboard.TargetName="imagescale"
+                Storyboard.TargetProperty="(ScaleTransform.ScaleX)" To="2" Duration="0:0:0.4" AutoReverse="True" />
+            <DoubleAnimation
+                Storyboard.TargetName="imagescale"
+                Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="2" Duration="0:0:0.4" AutoReverse="True" />
+        </Storyboard>
+        <Storyboard x:Key="ShowNamePlate">
+            <DoubleAnimation Timeline.DesiredFrameRate="20" Storyboard.TargetProperty="Height" To="64" Duration="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+    <Grid Background="White">
+        <WebBrowser x:Name="Browser1" Visibility="Visible" HorizontalAlignment="Stretch" Margin="11,167,0,0" VerticalAlignment="Stretch" />
+        <Canvas HorizontalAlignment="Right" Height="135" VerticalAlignment="Top" Width="135" Background="#FFF0F0F0">
+            <Rectangle RenderOptions.EdgeMode="Aliased" HorizontalAlignment="Left" Height="51" RadiusX="45" RadiusY="45" VerticalAlignment="Top" Width="48" Stroke="#FFC1C1C1" StrokeThickness="2" Canvas.Left="44" Canvas.Top="23">
+                <Rectangle.Fill>
+                    <ImageBrush x:Name="UserPic" ImageSource="/TingTong Mail;component/icons/userIcon.png" RenderOptions.BitmapScalingMode="LowQuality"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <TextBlock x:Name="From2" Text="Loading.." TextAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="#FF646464" FontSize="14" Width="97" Height="23" Canvas.Left="21" Canvas.Top="77"/>
+            <Image x:Name="Options" Height="11" Canvas.Left="66" Cursor="Hand" Source="/icons/down.png" Opacity="0.5" Canvas.Top="118" Width="10" RenderTransformOrigin="0.5,0.5">
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+                <Image.ContextMenu>
+                    <ContextMenu x:Name="ContactOptions">
+                        <ContextMenu.Template>
+                            <ControlTemplate>
+                                <Grid Width="358" Margin="10,1,10,10">
+                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,8,10,24"  Background="White">
+                                        <Grid.Effect>
+                                            <DropShadowEffect Direction="250" Opacity=".7" ShadowDepth="2.4" BlurRadius="10"/>
+                                        </Grid.Effect>
+                                        <Rectangle x:Name="nameplate" VerticalAlignment="Top" RenderOptions.EdgeMode="Aliased" Fill="#FF354E5D" Height="86"/>
+                                        <Rectangle  HorizontalAlignment="Left" Height="60" RadiusX="65" RadiusY="65" VerticalAlignment="Top" Width="54" Stroke="White" StrokeThickness="2" Margin="14,12,0,0">
+                                            <Rectangle.Fill>
+                                                <ImageBrush x:Name="UserPic" ImageSource="/TingTong Mail;component/icons/userIcon.png" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <TextBlock x:Name="name" MouseDown="UserName_MouseDown" MaxWidth="290" Text="Double click to add a name" HorizontalAlignment="Left" VerticalAlignment="Top" Width="230" Foreground="White" FontSize="15" Height="18" Margin="80,12,0,0"/>
+                                        <TextBox Height="28" x:Name="SecEmail" LostFocus="SecEmail_LostFocus" GotFocus="SecEmail_GotFocus" Margin="22,101,0,0"  VerticalContentAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Semilight" BorderBrush="#FFAAA6A6" Text=" Secondary email" Foreground="#FFB0B0B0" HorizontalAlignment="Left" Width="295" SelectionOpacity="0" Cursor="IBeam" FontSize="14"/>
+                                        <TextBox Height="28" x:Name="Address" LostFocus="Address_LostFocus" GotFocus="Address_GotFocus" Margin="22,136,0,0"  VerticalContentAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Semilight" BorderBrush="#FFAAA6A6" Text=" Address" Foreground="#FFB0B0B0" HorizontalAlignment="Left" Width="295" SelectionOpacity="0" Cursor="IBeam" FontSize="14"/>
+                                        <TextBox x:Name="AddName" KeyDown="AddName_KeyDown" HorizontalAlignment="Left" Visibility="Hidden" Height="25" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="248" FontFamily="Segoe UI" FontSize="15" VerticalContentAlignment="Center" Margin="77,9,0,0" Background="#FF153B51" BorderBrush="White" Foreground="White" BorderThickness="3,0,0,0" SelectionBrush="#FF686868">
+                                            <TextBox.Style>
+                                                <Style TargetType="TextBox">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                                                <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                                    <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsFocused" Value="true">
+                                                                        <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </TextBox.Style>
+                                        </TextBox>
+                                        <Image x:Name="saveImg" Visibility="Hidden" RenderOptions.BitmapScalingMode="LowQuality" Source="pack://application:,,,/TingTong Mail;component/icons/tick.png" HorizontalAlignment="Left" Height="10" Margin="257,182,0,0" VerticalAlignment="Top" Width="10">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                                </Style>
+                                            </Image.Style>
+                                            <Image.RenderTransform>
+                                                <ScaleTransform x:Name="imagescale" ScaleX="1" ScaleY="1"  />
+                                            </Image.RenderTransform>
+                                        </Image>
+                                        <TextBlock x:Name="email" Text="email"  VerticalAlignment="Top" Foreground="White" Height="18" Margin="80,35,10,0" FontFamily="Segoe UI Semibold"/>
+                                        <Rectangle x:Name="SaveBtn" MouseDown="SaveContact" Opacity="0" HorizontalAlignment="Left" Cursor="Hand" Height="26" Margin="250,173,0,0" StrokeThickness="2" VerticalAlignment="Top" Width="67" Fill="#FF50A0FF" RadiusX="15" RadiusY="15">
+                                            <Rectangle.Triggers>
+                                                <EventTrigger RoutedEvent="MouseEnter">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="MouseLeave">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Rectangle.Triggers>
+                                        </Rectangle>
+                                        <TextBlock x:Name="SaveText" Text="Save" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF424242" Height="18" Width="27"  Margin="271,177,0,0" FontFamily="Segoe UI Semibold"/>
+                                        <TextBlock x:Name="SaveText_Copy" Text="Add to group" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF424242" Height="18" Width="74"  Margin="32,177,0,0" FontFamily="Segoe UI Semibold"/>
+                                        <Image HorizontalAlignment="Left" Height="7" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="LowQuality" Margin="111,183,0,0" Source="/icons/Left.png" VerticalAlignment="Top" Width="8" RenderTransformOrigin="0.5,0.5">
+                                            <Image.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform Angle="180"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Image.RenderTransform>
+                                        </Image>
+                                        <Canvas x:Name="AllGroups" Visibility="Hidden" HorizontalAlignment="Left" Height="121" Margin="337,86,-337,0" VerticalAlignment="Top" Width="338" Background="White">
+                                            <Canvas x:Name="NoGroups" Visibility="Hidden" Height="111" Canvas.Left="10" Canvas.Top="10" Width="301">
+                                                <TextBlock x:Name="ThinkingText" Canvas.Left="71" TextWrapping="Wrap" Text="Please wait" TextAlignment="Center"  Canvas.Top="36" Width="176" Foreground="#FF898989" FontSize="16"/>
+                                            </Canvas>
+                                            <ScrollViewer Height="102" Width="338" Canvas.Top="19">
+                                                <VirtualizingStackPanel x:Name="GroupHolder" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                                            </ScrollViewer>
+                                            <Image HorizontalAlignment="Left" x:Name="GoBackToMain" Cursor="Hand" Height="12" Opacity="0.5" RenderOptions.BitmapScalingMode="LowQuality" Source="/TingTong Mail;component/icons/left.png" VerticalAlignment="Top" Width="10" RenderTransformOrigin="0.5,0.5" Canvas.Left="10" Canvas.Top="5">
+                                                <Image.Triggers>
+                                                    <EventTrigger RoutedEvent="MouseEnter">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                    <EventTrigger RoutedEvent="MouseLeave">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                </Image.Triggers>
+                                            </Image>
+                                        </Canvas>
+                                    </Grid>
+                                </Grid>
+                            </ControlTemplate>
+                        </ContextMenu.Template>
+                    </ContextMenu>
+                </Image.ContextMenu>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock Text="Click for more options"/>
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+        </Canvas>
+        <Grid x:Name="TopGrid" HorizontalAlignment="Stretch" Height="167" Margin="0,0,1,0" VerticalAlignment="Top">
+            <TextBlock HorizontalAlignment="Left" x:Name="Subject" Text="Loading..." TextTrimming="CharacterEllipsis" Foreground="#FF8D8D8D" FontSize="19" MaxWidth="400" Margin="10,31,0,107" Width="235"/>
+            <TextBlock x:Name="From" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Loading"  Margin="10,59,0,92" FontSize="11" Foreground="#FF0074FF"/>
+            <TextBlock HorizontalAlignment="Left" x:Name="To" Text="To : " TextTrimming="CharacterEllipsis" Foreground="#FF026EDA" Width="265" Margin="10,78,0,72" FontSize="11"/>
+            <TextBlock HorizontalAlignment="Left" x:Name="Cc" Text="Cc : " TextTrimming="CharacterEllipsis" Foreground="#FF006DDA" Width="264" Margin="10,96,0,54" FontSize="11"/>
+            <Rectangle HorizontalAlignment="Stretch" RenderOptions.EdgeMode="Aliased" Height="9" Margin="0,136,0,0" StrokeThickness="2" VerticalAlignment="Top" >
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFD1D1D1" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Grid RenderOptions.EdgeMode="Aliased" Visibility="Hidden" HorizontalAlignment="Stretch" x:Name="AttachmentMsg" Height="25" Margin="10,146,0,1" Background="White">
+
+                <TextBlock Canvas.Left="5" TextWrapping="Wrap" HorizontalAlignment="Left" Text="The email contains attachments" Canvas.Top="3" RenderTransformOrigin="-0.667,-0.312" Margin="0,4"/>
+                <Image Cursor="Hand" HorizontalAlignment="Right" x:Name="DownloadAtaachmentsBtn"  Source="pack://application:,,,/TingTong Mail;component/icons/downloadback.png" Width="16" Canvas.Top="5" Canvas.Left="407" Margin="0,4,35,4">
+                    <Image.ToolTip>
+                        <ToolTip Placement="Bottom">
+                            <TextBlock Text="Download attachments"/>
+                        </ToolTip>
+                    </Image.ToolTip>
+                </Image>
+                <Image Cursor="Hand" HorizontalAlignment="Right" x:Name="CloseAttachmentDialog"   Source="/TingTong Mail;component/icons/close.png" Width="16" Opacity="0.5" RenderTransformOrigin="0.5,0.571" Canvas.Top="5" Canvas.Left="426" Margin="0,3,10,4">
+                    <Image.ToolTip>
+                        <ToolTip Placement="Bottom">
+                            <TextBlock Text="Close"/>
+                        </ToolTip>
+                    </Image.ToolTip>
+                </Image>
+            </Grid>
+            <Rectangle x:Name="replyBtn" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0" Fill="#FFE4E4E4" Width="34" Height="31">
+                <Rectangle.ToolTip>
+                    <ToolTip Placement="Bottom">
+                        <TextBlock Text="Reply"/>
+                    </ToolTip>
+                </Rectangle.ToolTip>
+                <Rectangle.Triggers>
+                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Rectangle.Triggers>
+            </Rectangle>
+            <Image x:Name="replyimg" IsHitTestVisible="False" Opacity="0.6" Height="18" Width="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,6,0,0" Source="/TingTong Mail;component/icons/replytosender.png"/>
+            <Rectangle x:Name="replytoallBtn" Margin="34,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0" Fill="#FFE4E4E4" Width="34" Height="31">
+                <Rectangle.ToolTip>
+                    <ToolTip Placement="Bottom">
+                        <TextBlock Text="Reply all"/>
+                    </ToolTip>
+                </Rectangle.ToolTip>
+                <Rectangle.Triggers>
+                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Rectangle.Triggers>
+            </Rectangle>
+            <Image x:Name="replytoallimg" IsHitTestVisible="False" Opacity="0.6" Height="22" Width="27" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="41,3,0,0" Source="/TingTong Mail;component/icons/replytoall.png"/>
+            <Rectangle x:Name="forwardBtn" Margin="68,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0" Fill="#FFE4E4E4" Width="34" Height="31">
+                <Rectangle.ToolTip>
+                    <ToolTip Placement="Bottom">
+                        <TextBlock Text="Forward"/>
+                    </ToolTip>
+                </Rectangle.ToolTip>
+                <Rectangle.Triggers>
+                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Rectangle.Triggers>
+            </Rectangle>
+            <Image x:Name="forwardImg" IsHitTestVisible="False" Opacity="0.6" Height="18" Width="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="76,6,0,0" Source="/TingTong Mail;component/icons/forwardtosender.png"/>
+        </Grid>
+    </Grid>
+</Window>

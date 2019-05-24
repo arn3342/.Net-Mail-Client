@@ -1,0 +1,499 @@
+﻿<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{09484CCB-F67C-47B0-8A79-84007EE7214E}</ProjectGuid>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>TingTong_Mail</RootNamespace>
+    <AssemblyName>TingTong Mail</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <MyType>Custom</MyType>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <IncrementalBuild>true</IncrementalBuild>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>TingTong Mail.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <IncrementalBuild>false</IncrementalBuild>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>TingTong Mail.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icons\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.2.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.2\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.8.4.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.4\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="ImapX, Version=2.0.0.18, Culture=neutral, PublicKeyToken=5992873d65130d1f, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImapX.2.0.0.18\lib\net46\ImapX.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.2.0.4\lib\net45\MailKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MimeKit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.2.0.4\lib\net45\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.16\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
+    <Reference Include="wslib">
+      <HintPath>..\..\TingTong Mail2\TingTong Mail\bin\Debug\wslib.dll</HintPath>
+    </Reference>
+    <Reference Include="XamlAnimatedGif, Version=1.1.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XamlAnimatedGif.1.1.10\lib\net45\XamlAnimatedGif.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="Application.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App Pages\ContactPage.xaml.vb">
+      <DependentUpon>ContactPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App windows\testWindow.xaml.vb">
+      <DependentUpon>testWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Contact.vb" />
+    <Compile Include="CustomControls\CustomCheckbox.vb" />
+    <Compile Include="CustomControls\Folders.vb" />
+    <Compile Include="Sub Classes\GetGroupNames.vb" />
+    <Compile Include="Test windows\testform.xaml.vb">
+      <DependentUpon>testform.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Test windows\Window1.xaml.vb">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Test windows\Window2.xaml.vb">
+      <DependentUpon>Window2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolTip CustomControls\CalenderControl.vb" />
+    <Compile Include="ToolTip CustomControls\FolderCreation.vb" />
+    <Compile Include="User controls\emailUserList.xaml.vb">
+      <DependentUpon>emailUserList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User controls\LoadMoreEmails.xaml.vb">
+      <DependentUpon>LoadMoreEmails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User controls\MyCustomComboBox.xaml.vb">
+      <DependentUpon>MyCustomComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User controls\OtherMails.xaml.vb">
+      <DependentUpon>OtherMails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User controls\smallEmailContainer.xaml.vb">
+      <DependentUpon>smallEmailContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User controls\test.xaml.vb">
+      <DependentUpon>test.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User controls\UserFonts.xaml.vb">
+      <DependentUpon>UserFonts.xaml</DependentUpon>
+    </Compile>
+    <Page Include="App Pages\ContactPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="App Pages\EmailReader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App Pages\LogIn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App Pages\poporimap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App Pages\SendMail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App Pages\Setup mail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App Pages\SingleMail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App Pages\warning.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App windows\EmailWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App windows\Home.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App windows\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App windows\ManageAcc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App windows\sendTheEmail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App windows\Startup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="App windows\testWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContextMenus\AddToContact.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContextMenus\AddToGroup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContextMenus\contextmenuForCombobox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContextMenus\CurrentFolderDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContextMenus\MyCustomCheckBoxxaml.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContextMenus\Show Filtering Options.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App Pages\EmailReader.xaml.vb">
+      <DependentUpon>EmailReader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App Pages\LogIn.xaml.vb">
+      <DependentUpon>LogIn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App Pages\poporimap.xaml.vb">
+      <DependentUpon>poporimap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App Pages\SendMail.xaml.vb">
+      <DependentUpon>SendMail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App Pages\SetUp mail.xaml.vb">
+      <DependentUpon>Setup mail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App Pages\SingleMail.xaml.vb">
+      <DependentUpon>SingleMail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App Pages\warning.xaml.vb">
+      <DependentUpon>warning.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App windows\EmailWindow.xaml.vb">
+      <DependentUpon>EmailWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App windows\Home.xaml.vb">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App windows\MainWindow.xaml.vb">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App windows\ManageAcc.xaml.vb">
+      <DependentUpon>ManageAcc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App windows\sendTheEmail.xaml.vb">
+      <DependentUpon>sendTheEmail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App windows\Startup.xaml.vb">
+      <DependentUpon>Startup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Application.xaml.vb">
+      <DependentUpon>Application.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Emails.vb" />
+    <Compile Include="Classes\Groups.vb" />
+    <Compile Include="Classes\ImageLoader.vb" />
+    <Compile Include="Classes\IMClinet.vb" />
+    <Compile Include="Classes\LoadAllUsersClass.vb" />
+    <Compile Include="Classes\SaveNewContact.vb" />
+    <Compile Include="Classes\WebBrowserHostUIHandler.vb" />
+    <Compile Include="ContextMenus\AddToContact.xaml.vb">
+      <DependentUpon>AddToContact.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContextMenus\AddToGroup.xaml.vb">
+      <DependentUpon>AddToGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContextMenus\contextmenuForCombobox.xaml.vb">
+      <DependentUpon>contextmenuForCombobox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContextMenus\CurrentFolderDetails.xaml.vb">
+      <DependentUpon>CurrentFolderDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContextMenus\MyCustomCheckBoxxaml.xaml.vb">
+      <DependentUpon>MyCustomCheckBoxxaml.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContextMenus\Show Filtering Options.xaml.vb">
+      <DependentUpon>Show Filtering Options.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\CurUPanel.vb" />
+    <Compile Include="CustomControls\EmailDetails.vb" />
+    <Compile Include="CustomControls\FilteringOptions.vb" />
+    <Compile Include="CustomControls\FolderCntrol.vb" />
+    <Compile Include="CustomControls\mailContainer1.vb" />
+    <Compile Include="CustomControls\MsgPnl.vb" />
+    <Compile Include="CustomControls\SaveContact.vb" />
+    <Compile Include="CustomControls\SearchBox.vb" />
+    <Compile Include="CustomControls\smallButtons.vb" />
+    <Page Include="Test windows\testform.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Test windows\Window1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Test windows\Window2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="User controls\emailUserList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="User controls\LoadMoreEmails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="User controls\MyCustomComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="User controls\OtherMails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="User controls\smallEmailContainer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="User controls\test.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="User controls\UserFonts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System.Threading.Tasks" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows" />
+    <Import Include="System.Windows.Controls" />
+    <Import Include="System.Windows.Data" />
+    <Import Include="System.Windows.Documents" />
+    <Import Include="System.Windows.Input" />
+    <Import Include="System.Windows.Shapes" />
+    <Import Include="System.Windows.Media" />
+    <Import Include="System.Windows.Media.Imaging" />
+    <Import Include="System.Windows.Navigation" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="My Project\MyExtensions\MyWpfExtension.vb">
+      <VBMyExtensionTemplateID>Microsoft.VisualBasic.WPF.MyExtension</VBMyExtensionTemplateID>
+      <VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <Resource Include="icons\LoadingAnim.data" />
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\0a.png" />
+    <Resource Include="icons\0b.png" />
+    <Resource Include="icons\add.png" />
+    <Resource Include="icons\alcolor.jpg" />
+    <Resource Include="icons\allMails.png" />
+    <Resource Include="icons\aMails.png" />
+    <Resource Include="icons\attachIco.png" />
+    <Resource Include="icons\Block.png" />
+    <Resource Include="icons\centerAlign.png" />
+    <Resource Include="icons\close.png" />
+    <Resource Include="icons\closebtn.png" />
+    <Resource Include="icons\clsIcon.png" />
+    <Resource Include="icons\col.png" />
+    <Resource Include="icons\collapse.png" />
+    <Resource Include="icons\composeicon.png" />
+    <Resource Include="icons\consave.png" />
+    <Resource Include="icons\CreateFolder.png" />
+    <Resource Include="icons\delete.png" />
+    <Resource Include="icons\down.png" />
+    <Resource Include="icons\downloadBack.png" />
+    <Resource Include="icons\downloaddBlue.png" />
+    <Resource Include="icons\dtticon.png" />
+    <Resource Include="icons\enter.png" />
+    <Resource Include="icons\exp.png" />
+    <Resource Include="icons\expand.png" />
+    <Resource Include="icons\favIcon.png" />
+    <Resource Include="icons\favourites.png" />
+    <Resource Include="icons\fgIco.png" />
+    <Resource Include="icons\flgicon.png" />
+    <Resource Include="icons\forwardtosender.png" />
+    <Resource Include="icons\fvIco.png" />
+    <Resource Include="icons\left.png" />
+    <Resource Include="icons\leftAlign.png" />
+    <Resource Include="icons\lgicon.png" />
+    <Resource Include="icons\logo.ico" />
+    <Resource Include="icons\logo.png" />
+    <Resource Include="icons\menubtn.png" />
+    <Resource Include="icons\newusericon.png" />
+    <Resource Include="icons\pallate.png" />
+    <Resource Include="icons\pen.png" />
+    <Resource Include="icons\popOut.png" />
+    <Resource Include="icons\rdIco.png" />
+    <Resource Include="icons\rdIcon.png" />
+    <Resource Include="icons\replytoall.png" />
+    <Resource Include="icons\replytosender.png" />
+    <Resource Include="icons\rght.png" />
+    <Resource Include="icons\rightALign.png" />
+    <Resource Include="icons\save.png" />
+    <Resource Include="icons\searchbtn.png" />
+    <Resource Include="icons\seen.png" />
+    <Resource Include="icons\settings.png" />
+    <Resource Include="icons\settingsicon.png" />
+    <Resource Include="icons\smallflag.png" />
+    <Resource Include="icons\srcIcon.png" />
+    <Resource Include="icons\transparentbackground.png" />
+    <Resource Include="icons\trash.png" />
+    <Resource Include="icons\uIcon.png" />
+    <Resource Include="icons\ulock.png" />
+    <Resource Include="icons\unseen.png" />
+    <Resource Include="icons\uscIco.png" />
+    <Resource Include="icons\userIcon.png" />
+    <Resource Include="icons\writing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\muluicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\showAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\calender.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\MoveConToGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\sendmail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\task1.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

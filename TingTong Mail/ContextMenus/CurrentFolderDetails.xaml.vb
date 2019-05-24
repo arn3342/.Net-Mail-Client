@@ -1,0 +1,3 @@
+﻿Class CurrentFolderDetails
+
+End Class

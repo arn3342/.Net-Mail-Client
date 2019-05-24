@@ -1,0 +1,194 @@
+﻿<Page x:Class="LogIn"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TingTong_Mail"
+      mc:Ignorable="d" 
+      d:DesignHeight="350" d:DesignWidth="517"
+      Title="LogIn">
+    <Page.Resources>
+
+        <Style x:Key="MyFocusVisualStyte" >
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle x:Name="FocusStyle" StrokeDashArray="4 4" RadiusX="5" RadiusY="5" Fill="Transparent"
+                           Stroke="#81d2eb" StrokeThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource MyFocusVisualStyte}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <BulletDecorator>
+                            <BulletDecorator.Bullet>
+                                <Grid Height="{TemplateBinding Height}" Width="28"
+                              MinHeight="30" MinWidth="30" ShowGridLines="False">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*" />
+                                        <ColumnDefinition Width=".5*" />
+                                        <ColumnDefinition Width=".1*" />
+                                        <ColumnDefinition Width="4*" />
+                                        <ColumnDefinition Width=".1*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="3*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height=".1*" />
+                                        <RowDefinition Height=".1*" />
+                                        <RowDefinition Height="3*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="4*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Border Name="MainBorder"
+                                    Grid.ColumnSpan="9" Grid.RowSpan="9"
+                                    CornerRadius="4"
+                                    BorderThickness="1"
+                                    Background="Transparent" />
+
+                                    <Border Name="InnerBorder"
+                                    Grid.Column="1" Grid.ColumnSpan="5"
+                                    Grid.Row="2" Grid.RowSpan="5"
+                                    BorderThickness="1"
+                                    BorderBrush="#808080" />
+
+                                    <Path Name="InnerPath"
+                                  Grid.Column="1" Grid.ColumnSpan="5"
+                                  Grid.Row="2" Grid.RowSpan="5"
+                                  Data="M31,5 L19.5,5 19.5,19.5 34.5,19.5 34.5,11.75"
+                                  Stretch="Fill" Stroke="#808080"/>
+
+                                    <Path Name="CheckMark"
+                                  Grid.Column="2" Grid.ColumnSpan="5"
+                                  Grid.Row="1" Grid.RowSpan="5"
+                                  Opacity="0"
+                                  Data="M9.07743946676476E-09,4.31805768640244L4.68740335877841,8.86361158398516C4.68740335877841,8.86361158398516,16.3281249985376,-2.42451336648723,16.3281249985376,-2.42451336648723L14.0622100581796,-4.77304938341948 4.68740335877846,4.31805791992662 2.22656251699567,1.93164208562579z"
+                                  Fill="#3babe3"
+                                  Stretch="Fill"
+                                  Stroke="#3babe3" />
+
+                                    <Path Name="InderminateMark"
+                                  Grid.Column="3"
+                                  Grid.Row="4"
+                                  Data="M0,4 L1,5 5,1 4,0"
+                                  Opacity="0"
+                                  Stretch="Fill"
+                                  StrokeThickness="0"
+                                  Fill="#808080" />
+                                </Grid>
+                            </BulletDecorator.Bullet>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             Storyboard.TargetName="CheckMark" Duration="0:0:0.1" To="1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked" >
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             Storyboard.TargetName="CheckMark" Duration="0:0:0.1" To="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             Storyboard.TargetName="InderminateMark" Duration="0:0:0.1" To="1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter Margin="4,0,4,0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        RecognizesAccessKey="True" />
+                        </BulletDecorator>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="InnerBorder" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="MainBorder" Property="Background" Value="#81d2eb" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="CheckMark" Property="Fill" Value="#cccccc" />
+                                <Setter TargetName="CheckMark" Property="Stroke" Value="#cccccc" />
+                                <Setter TargetName="InnerPath" Property="Stroke" Value="#cccccc" />
+                                <Setter TargetName="InderminateMark" Property="Fill" Value="#cccccc" />
+                                <Setter TargetName="InnerBorder" Property="BorderBrush" Value="#cccccc" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <PasswordBox x:Name="passwordBox" Visibility="Hidden" Password=""  HorizontalAlignment="Left" Margin="35,177,0,0" VerticalAlignment="Top" Height="23" FontFamily="Segoe UI semiLight" Width="255" FontSize="14.5" Foreground="#FF3E3D3D"/>
+        <Label x:Name="label" Content="Welcome" HorizontalAlignment="Left" Margin="177,5,0,0" VerticalAlignment="Top" FontFamily="Segoe UI light" FontSize="38" Foreground="#FF858484" Width="161"/>
+        <Label x:Name="label_Copy" Content="Please log-in to continue" HorizontalAlignment="Left" Margin="156,64,0,0" VerticalAlignment="Top" FontSize="19" Foreground="#FF858484" FontFamily="Segoe UI Light"/>
+        <Grid HorizontalAlignment="Left" Height="73" Margin="111,135,0,0" VerticalAlignment="Top" Width="305">
+            <WindowsFormsHost Name="passowrdwindow" Margin="4,13,1,34" Width="300" GotFocus="WindowsFormsHost_GotFocus" LostFocus="WindowsFormsHost_LostFocus" Height="26">
+                <wf:TextBox x:Name="txtpassword" BorderStyle="None"/>
+            </WindowsFormsHost>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="41" Margin="99,99,0,0" VerticalAlignment="Top" Width="330">
+            <WindowsFormsHost x:Name="newwindows1" Margin="16,7,14,8" Width="300" Height="26">
+                <wf:TextBox x:Name="txtEmail" BorderStyle="None"/>
+            </WindowsFormsHost>
+        </Grid>
+        <Rectangle Fill="#FFDEDDDD" HorizontalAlignment="Left" Height="2" Margin="111,132,0,0" RadiusY="2" RadiusX="2" VerticalAlignment="Top" Width="306"/>
+        <Rectangle Fill="#FFDEDDDD" HorizontalAlignment="Left" Height="2" Margin="112,174,0,0" RadiusY="2" RadiusX="2" VerticalAlignment="Top" Width="306"/>
+        <Grid HorizontalAlignment="Left" Height="100" Margin="104,108,0,0" VerticalAlignment="Top" Width="100"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="12" Margin="93,113,0,0" VerticalAlignment="Top" Width="15" Source="/icons/0b.png"/>
+        <Image x:Name="image_Copy" HorizontalAlignment="Left" Height="16" Margin="95,153,0,0" VerticalAlignment="Top" Width="12" Source="/icons/0a.png"/>
+        <CheckBox x:Name="checkBox" HorizontalAlignment="Left" Margin="105,176,0,0" VerticalAlignment="Top" Width="30"/>
+        <Grid HorizontalAlignment="Left" Name="Buttons" Height="83" Margin="216,202,0,0" VerticalAlignment="Top" Width="100">
+            <Rectangle x:Name="loginrect" Fill="White"  HorizontalAlignment="Left" Height="33" Margin="10,10,0,0" Stroke="#FFAAA9A9" VerticalAlignment="Top" Width="80" RadiusX="15" RadiusY="15" StrokeThickness="1.4" MouseDown="loginrect_MouseDown">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ParallelTimeline>
+                                            <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF424242" Duration="0:0:0.1" />
+                                        </ParallelTimeline>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ParallelTimeline>
+                                            <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FFFFFFFF" Duration="0:0:0.1" />
+                                        </ParallelTimeline>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+            <Label x:Name="lgin" Content="Log in" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="22,11,0,0" VerticalAlignment="Top" FontSize="14" Foreground="#FF9C9B9B" Height="29" Width="48"/>
+            <Image x:Name="image1" IsHitTestVisible="false" HorizontalAlignment="Left" Height="9" Margin="74,22,0,0" VerticalAlignment="Top" Width="6" Source="/icons/lgicon.png" Stretch="Fill"/>
+        </Grid>
+        <Image x:Name="anim" HorizontalAlignment="Left" Visibility="visible" Height="34" Width="38" Margin="247,218,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="135,182,0,0" TextWrapping="Wrap" Text="Setup server manually" VerticalAlignment="Top" Width="153" FontSize="13"/>
+    </Grid>
+</Page>

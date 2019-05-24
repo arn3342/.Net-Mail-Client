@@ -1,0 +1,741 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+      xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+      xmlns:local="clr-namespace:TingTong_Mail"
+      xmlns:Options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+    xmlns:ws="clr-namespace:WordSuggestionsTextBoxLib;assembly=wslib" x:Class="SendMail"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" d:DesignWidth="800"
+      Title="SendMail" Background="White">
+    <Page.Resources>
+        <CollectionViewSource x:Key="myFonts" Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}">
+            <CollectionViewSource.SortDescriptions>
+                <ComponentModel:SortDescription PropertyName="Source" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#FF636363" />
+        <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#fff" />
+        <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
+        <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />
+        <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="#888" />
+        <ControlTemplate TargetType="ToggleButton" x:Key="ComboBoxToggleButtonTemplate">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="21" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.ColumnSpan="2" Name="Border"
+              BorderBrush="{StaticResource ComboBoxNormalBorderBrush}" 
+              CornerRadius="0" BorderThickness="3, 0, 0, 0" 
+              Background="{StaticResource ComboBoxNormalBackgroundBrush}" />
+
+                <Grid Height="Auto" Opacity="1" Name="Arrow" Cursor="Hand" Grid.Column="1" Background="White" Margin="0">
+                    <Ellipse VerticalAlignment="Stretch" Margin="2,6,14,5" Fill="#FF787878" Height="4" Width="4" Stroke="{x:Null}" StrokeThickness="0.6"/>
+                    <Ellipse VerticalAlignment="Stretch" Margin="8,6,8,5" Fill="#FF787878" Height="4" Width="4" Stroke="{x:Null}" StrokeThickness="0.6"/>
+                    <Ellipse VerticalAlignment="Stretch"  Margin="14,6,2,5" Fill="#FF787878" Height="4"  Width="4" StrokeThickness="0.6" Stroke="{x:Null}"/>
+                </Grid>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" TargetName="Arrow" Value="#FFD1D1D1"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Background" TargetName="Arrow" Value="White"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border 
+          Name="Border"
+          Padding="0"
+          SnapsToDevicePixels="true" BorderBrush="#FF0080FF" BorderThickness="0.4">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="true">
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ComboBoxFlatStyle"  TargetType="{x:Type ComboBox}">
+            <Setter Property="UIElement.SnapsToDevicePixels" Value="True"/>
+            <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+            <Setter Property="TextElement.Foreground" Value="Black"/>
+            <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton" Grid.Column="2"
+                ClickMode="Press" Focusable="False"
+                IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                Template="{StaticResource ComboBoxToggleButtonTemplate}"/>
+
+                            <ContentPresenter Name="ContentSite" Margin="5, 3, 23, 3" IsHitTestVisible="False"
+                              HorizontalAlignment="Left" VerticalAlignment="Center"                              
+                              Content="{TemplateBinding ComboBox.SelectionBoxItem}" 
+                              ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}"
+                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                            <TextBox Name="PART_EditableTextBox" Margin="3, 3, 23, 3"                     
+                     IsReadOnly="{TemplateBinding IsReadOnly}"
+                     Visibility="Hidden" Background="Transparent"
+                     HorizontalAlignment="Left" VerticalAlignment="Center"
+                     Focusable="True" >
+                                <TextBox.Template>
+                                    <ControlTemplate TargetType="TextBox" >
+                                        <Border Name="PART_ContentHost" Focusable="False" />
+                                    </ControlTemplate>
+                                </TextBox.Template>
+                            </TextBox>
+                            <!-- Popup showing items -->
+                            <Popup Name="Popup" Placement="Bottom"
+                   Focusable="False" AllowsTransparency="True"
+                   IsOpen="{TemplateBinding ComboBox.IsDropDownOpen}"
+                   PopupAnimation="Scroll">
+                                <Grid Name="DropDown" SnapsToDevicePixels="True"
+                    MinWidth="{TemplateBinding FrameworkElement.ActualWidth}"
+                    MaxHeight="400">
+                                    <!-- <Border Name="DropDownBorder" Background="{x:Null}" Margin="0, 1, 0, 0"
+                        CornerRadius="0" BorderThickness="0,0,0,0" 
+                        BorderBrush="{x:Null}"/>-->
+                                    <ScrollViewer Background="White" Margin="4" SnapsToDevicePixels="True">
+                                        <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"  />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ItemsControl.HasItems" Value="False">
+                                <!-- <Setter Property="FrameworkElement.MinHeight" TargetName="DropDownBorder" Value="95"/>-->
+                            </Trigger>
+                            <Trigger Property="UIElement.IsEnabled" Value="False">
+                                <Setter Property="TextElement.Foreground" Value="{x:Null}"/>
+                            </Trigger>
+                            <Trigger Property="ItemsControl.IsGrouping" Value="True">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+                            </Trigger>
+                            <Trigger Property="ComboBox.IsEditable" Value="True">
+                                <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
+                                <Setter Property="UIElement.Visibility" TargetName="PART_EditableTextBox" Value="Visible"/>
+                                <Setter Property="UIElement.Visibility" TargetName="ContentSite" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ScrollViewerControlTemplate" TargetType="{x:Type ScrollViewer}">
+            <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.RowSpan="2" Margin="{TemplateBinding Padding}" Grid.ColumnSpan="2"/>
+                <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Width="8" Background="{x:Null}"/>
+                <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Height="8"/>
+            </Grid>
+        </ControlTemplate>
+        <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="HorizontalThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="4" />
+                                <ColumnDefinition Width="4" />
+                            </Grid.ColumnDefinitions>
+                            <Ellipse Grid.Column="0" Grid.ColumnSpan="2" Fill="#FF0A0AFF" />
+                            <Rectangle Grid.Column="1" Grid.ColumnSpan="3" Fill="#FFF4F4F5" />
+                            <Ellipse Grid.Column="3" Grid.ColumnSpan="2" Fill="#FFF4F4F5" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VerticalThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="4" />
+                                <RowDefinition Height="4" />
+                                <RowDefinition />
+                                <RowDefinition Height="4" />
+                                <RowDefinition Height="4" />
+                            </Grid.RowDefinitions>
+                            <Ellipse Grid.Row="0" Grid.RowSpan="2" Fill="#FF87BDFF" />
+                            <Rectangle Grid.Row="1" Grid.RowSpan="3" Fill="#FF87BDFF" />
+                            <Ellipse Grid.Row="3" Grid.RowSpan="2" Fill="#FF87BDFF" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type ScrollBar}">
+            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="MinWidth" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="Bg" SnapsToDevicePixels="true" Background="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.00001*"/>
+                            </Grid.RowDefinitions>
+                            <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="1">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource ScrollBarPageButton}"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource ScrollBarPageButton}"/>
+                                </Track.IncreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb Style="{DynamicResource VerticalThumb}" Microsoft_Windows_Themes:ScrollChrome.ScrollGlyph="VerticalGripper" Width="8"/>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Width" Value="Auto"/>
+                    <Setter Property="MinWidth" Value="0"/>
+                    <Setter Property="Height" Value="10"/>
+                    <Setter Property="MinHeight" Value="10"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                <Grid x:Name="Bg" SnapsToDevicePixels="true" Background="#7FA7A7A7">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.00001*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Track x:Name="PART_Track" Grid.Column="1" IsEnabled="{TemplateBinding IsMouseOver}">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource ScrollBarPageButton}"/>
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Command="{x:Static ScrollBar.PageRightCommand}" Style="{StaticResource ScrollBarPageButton}"/>
+                                        </Track.IncreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb Microsoft_Windows_Themes:ScrollChrome.ScrollGlyph="HorizontalGripper" Style="{DynamicResource HorizontalThumb}" Height="8"/>
+                                        </Track.Thumb>
+                                    </Track>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid HorizontalAlignment="Stretch" Height="100" Margin="0,106,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="621*"/>
+                <ColumnDefinition Width="179*"/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle HorizontalAlignment="Stretch" Height="27" Margin="9,5,0,0" VerticalAlignment="Top" Stroke="#FF999999" StrokeThickness="0.5"/>
+            <TextBlock HorizontalAlignment="Left" Margin="14,10,0,0" TextWrapping="Wrap" Text="To :" VerticalAlignment="Top" Foreground="#FF9B9B9B" FontFamily="Segoe UI Semibold" Height="16" Width="19"/>
+            <Rectangle HorizontalAlignment="Stretch" Height="27" Margin="9,36,0,0" VerticalAlignment="Top" Stroke="#FF999999" StrokeThickness="0.5"/>
+            <TextBlock HorizontalAlignment="Left" Margin="14,41,0,0" TextWrapping="Wrap" Text="Cc :" VerticalAlignment="Top" Foreground="#FF9B9B9B" FontFamily="Segoe UI Semibold" Height="16"/>
+            <Rectangle HorizontalAlignment="Stretch" Height="27" Margin="9,67,0,0" VerticalAlignment="Top" Stroke="#FF999999" StrokeThickness="0.5"/>
+            <TextBlock HorizontalAlignment="Left" Margin="14,72,0,0" TextWrapping="Wrap" Text="Subject :" VerticalAlignment="Top" Foreground="#FF9B9B9B" FontFamily="Segoe UI Semibold" Height="16"/>
+            <Canvas HorizontalAlignment="Right" Height="99" VerticalAlignment="Top" Width="96" Background="#FFF0F0F0" Margin="0,-2,3,0" Grid.Column="1">
+                <Rectangle RenderOptions.EdgeMode="Aliased" HorizontalAlignment="Left" Height="51" RadiusX="45" RadiusY="45" VerticalAlignment="Top" Width="48" Stroke="#FFC1C1C1" StrokeThickness="2" Canvas.Left="25" Canvas.Top="14">
+                    <Rectangle.Fill>
+                        <ImageBrush x:Name="UserPic" ImageSource="/TingTong Mail;component/icons/userIcon.png" RenderOptions.BitmapScalingMode="LowQuality"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <TextBlock x:Name="Add" Cursor="Hand" Text="Click to add" TextAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="#FF646464" FontSize="14" Width="97" Height="23" Canvas.Left="2" Canvas.Top="69"/>
+            </Canvas>
+            <TextBox x:Name="To" Cursor="IBeam" Text="" AcceptsReturn="False" MaxLines="1" AcceptsTab="False"  HorizontalAlignment="Stretch" Padding="1,0,-1,0" Visibility="Visible" Height="25" VerticalAlignment="Top" FontFamily="Segoe UI" VerticalContentAlignment="Center" Background="White" BorderBrush="Black" Foreground="#FF9C9A9A" BorderThickness="0" SelectionBrush="#FF686868" Margin="38,6,1,0">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsFocused" Value="true">
+                                            <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBox x:Name="Cc" Cursor="IBeam" Text="" AcceptsReturn="False" MaxLines="1" AcceptsTab="False"  HorizontalAlignment="Stretch" Padding="1,0,-1,0" Visibility="Visible" Height="25" VerticalAlignment="Top" FontFamily="Segoe UI" VerticalContentAlignment="Center" Background="White" BorderBrush="Black" Foreground="#FF9C9A9A" BorderThickness="0" SelectionBrush="#FF686868" Margin="38,37,1,0">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsFocused" Value="true">
+                                            <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBox x:Name="Subject" Cursor="IBeam" Text="" AcceptsReturn="False" MaxLines="1" AcceptsTab="False"  HorizontalAlignment="Stretch" Padding="1,0,-1,0" Visibility="Visible" Height="25" VerticalAlignment="Top" FontFamily="Segoe UI" VerticalContentAlignment="Center" Background="White" BorderBrush="Black" Foreground="#FF9C9A9A" BorderThickness="0" SelectionBrush="#FF686868" Margin="65,68,1,0">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsFocused" Value="true">
+                                            <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
+        <Grid x:Name="MainBody" HorizontalAlignment="Stretch" Margin="0,210,0,0" VerticalAlignment="Stretch" />
+        <TabControl x:Name="tabControl1" ClipToBounds="False"  TabStripPlacement="Top"  BorderBrush="White"  FontSize="14" HorizontalAlignment="Stretch" Height="104" Margin="0,2,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Foreground="#FFA0A0A0" HorizontalContentAlignment="Center">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TabItem}" >
+                                <Border x:Name="Border"  BorderThickness="0,0,0,0" ClipToBounds="False" BorderBrush="White" Background="White"  CornerRadius="13,13,13,13" Margin="1,0">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2" ClipToBounds="False"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <EventTrigger SourceName="ContentSite" RoutedEvent="UIElement.MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation Timeline.DesiredFrameRate="20" Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).Color" From="White" To="LightGray" Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger SourceName="ContentSite" RoutedEvent="UIElement.MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ParallelTimeline>
+                                                    <ColorAnimation Timeline.DesiredFrameRate="20" Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).Color" From="LightGray" To="White" Duration="0:0:0.1"/>
+                                                </ParallelTimeline>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="#FF0090D3"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="FontFamily" Value="Segoe Ui SemiBold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Width="30" Visibility="Hidden"/>
+            <TabItem Height="25" IsSelected="True" Width="76" ClipToBounds="False" Header="General">
+
+                <Grid HorizontalAlignment="Stretch" ClipToBounds="False" Margin="0,0,0,-3">
+
+                    <Border BorderThickness="1,0,0,0" BorderBrush="#FFC3C3C3" Margin="387,6,274,4"/>
+
+                    <Rectangle RenderOptions.EdgeMode="Aliased" Fill="#FFEEEEEE" Height="64" StrokeThickness="0.6" Width="57" RadiusX="5" RadiusY="5" Margin="5,6,0,4" HorizontalAlignment="Left"/>
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="Aa" Height="30" Width="38" FontSize="28" FontFamily="Arial" Foreground="Black" Margin="14,22,0,22" HorizontalAlignment="Left"/>
+                    <Rectangle Fill="Black" Opacity="0.5" RadiusX="3" RadiusY="3" Height="15" StrokeThickness="0.6" Width="14" Margin="155,47,0,12" HorizontalAlignment="Left">
+                        <Rectangle.ToolTip>
+                            <ToolTip Placement="Bottom">
+                                <TextBlock Text="Change font color to : Black"/>
+                            </ToolTip>
+                        </Rectangle.ToolTip>
+                        <Rectangle.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Rectangle.Triggers>
+                    </Rectangle>
+                    <Rectangle Fill="#FF00A2FF" Opacity="0.5" RadiusX="3" RadiusY="3" Height="15" StrokeThickness="0.6" Width="14" Margin="195,47,0,12" HorizontalAlignment="Left">
+                        <Rectangle.ToolTip>
+                            <ToolTip Placement="Bottom">
+                                <TextBlock Text="Change font color to : Blue"/>
+                            </ToolTip>
+                        </Rectangle.ToolTip>
+                        <Rectangle.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Rectangle.Triggers>
+                    </Rectangle>
+                    <Rectangle Fill="Red" Opacity="0.5" RadiusX="3" RadiusY="3" Height="15" StrokeThickness="0.6" Width="14" Margin="175,47,0,12" HorizontalAlignment="Left">
+                        <Rectangle.ToolTip>
+                            <ToolTip Placement="Bottom">
+                                <TextBlock Text="Change font color to : Red"/>
+                            </ToolTip>
+                        </Rectangle.ToolTip>
+                        <Rectangle.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Rectangle.Triggers>
+                    </Rectangle>
+                    <Rectangle Fill="#FF09EA1D" Opacity="0.5" RadiusX="3" RadiusY="3" Height="15" StrokeThickness="0.6" Width="14" Margin="215,47,0,12" HorizontalAlignment="Left">
+                        <Rectangle.ToolTip>
+                            <ToolTip Placement="Bottom">
+                                <TextBlock Text="Change font color to : Green"/>
+                            </ToolTip>
+                        </Rectangle.ToolTip>
+                        <Rectangle.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Rectangle.Triggers>
+                    </Rectangle>
+                    <Image Source="/icons/pallate.png" Cursor="Hand" Opacity="0.5" RenderOptions.BitmapScalingMode="Fant" Height="20" Width="20" Margin="239,44,0,10" HorizontalAlignment="Left">
+                        <Image.ToolTip>
+                            <ToolTip Placement="Bottom">
+                                <TextBlock Text="More colors"/>
+                            </ToolTip>
+                        </Image.ToolTip>
+                        <Image.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Image.Triggers>
+                    </Image>
+                    <local:MyCustomComboBox x:Name="FontSizeSelector" HorizontalAlignment="Left" Height="29" Margin="70,39,0,0" VerticalAlignment="Top" Width="80"/>
+                    <local:MyCustomComboBox x:Name="FontSelector" HorizontalAlignment="Left" Height="29" Margin="70,6,0,0" VerticalAlignment="Top" Width="189"/>
+                    <Grid HorizontalAlignment="Left" Height="64" Margin="264,4,0,0" VerticalAlignment="Top" Width="119">
+                        <Border BorderThickness="1,0,0,0" BorderBrush="#FFC3C3C3" />
+
+                        <local:MyCustomComboBox x:Name="Formattings" HorizontalAlignment="Left" Height="29" Margin="6,2,0,0" VerticalAlignment="Top" Width="110"/>
+                        <Rectangle x:Name="AlignToLeft" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="10,3,0,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <Image HorizontalAlignment="Left" Height="16" RenderOptions.BitmapScalingMode="Fant" Margin="16,9,0,0" Source="/icons/leftalign.png" VerticalAlignment="Top" Width="15" IsHitTestVisible="False"/>
+                        <Rectangle x:Name="AlignToCenter" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="37,3,0,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <Image HorizontalAlignment="Left" Height="16" RenderOptions.BitmapScalingMode="Fant" Margin="43,9,0,0" Source="/TingTong Mail;component/icons/centerAlign.png" VerticalAlignment="Top" Width="15" IsHitTestVisible="False"/>
+                        <Rectangle x:Name="AlignToRight" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="64,3,0,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <Image HorizontalAlignment="Left" Height="16" RenderOptions.BitmapScalingMode="Fant" Margin="70,9,0,0" Source="/TingTong Mail;component/icons/rightAlign.png" VerticalAlignment="Top" Width="15" IsHitTestVisible="False"/>
+                        <Rectangle x:Name="AlignToLeft_Copy" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="8,34,0,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <TextBlock TextWrapping="Wrap" IsHitTestVisible="False" Text="Abc" Margin="13,41,88,10" Foreground="Black" FontSize="10"/>
+                        <Rectangle x:Name="AlignToLeft_Copy1" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="35,34,0,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <TextBlock TextWrapping="Wrap" IsHitTestVisible="False" Text="Abc" Margin="39,41,61,10" Foreground="Black" FontSize="10" FontFamily="Segoe UI Bold"/>
+                        <Rectangle x:Name="AlignToLeft_Copy2" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="62,34,0,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <TextBlock TextWrapping="Wrap" IsHitTestVisible="False" Text="Abc" Margin="66,41,34,10" Foreground="Black" FontSize="10" FontFamily="Segoe UI" FontStyle="Italic"/>
+                        <Rectangle x:Name="AlignToLeft_Copy3" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="89,34,0,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <TextBlock TextWrapping="Wrap" IsHitTestVisible="False" Text="Abc" Margin="94,41,7,10" Foreground="Black" FontSize="10" TextDecorations="Underline"/>
+                        <Rectangle x:Name="AlignToLeft_Copy4" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="8,34,0,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0"/>
+                        <Rectangle x:Name="AlignToLeft_Copy5" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="129,35,-37,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <Rectangle x:Name="AlignToLeft_Copy6" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="156,35,-64,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <Rectangle x:Name="AlignToLeft_Copy7" Fill="#FFDEDEDE" HorizontalAlignment="Left" Height="27" Margin="183,35,-91,0" StrokeThickness="0.6" VerticalAlignment="Top" Width="27" Opacity="0">
+                            <Rectangle.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Rectangle.Triggers>
+                        </Rectangle>
+                        <Image Source="/icons/attch.png" RenderOptions.BitmapScalingMode="Fant" Margin="136,40,-30,7" />
+                        <Image Source="/TingTong Mail;component/icons/callender.png" RenderOptions.BitmapScalingMode="Fant" Margin="163,40,-57,7" />
+                        <Image Source="/TingTong Mail;component/icons/pen.png" RenderOptions.BitmapScalingMode="Fant" Margin="190,40,-84,7" />
+
+                    </Grid>
+                    <local:MyCustomCheckBoxxaml x:Name="WordSuggestion" HorizontalAlignment="Left" Height="12" Margin="530,5,0,0" VerticalAlignment="Top" Width="130" Foreground="#FF686868"/>
+                    <local:MyCustomCheckBoxxaml x:Name="AutoCorrect" HorizontalAlignment="Left" Height="13" Margin="530,27,0,0" VerticalAlignment="Top" Width="130" Foreground="#FF686868"/>
+                    <local:MyCustomCheckBoxxaml x:Name="HTMLorTEXT" HorizontalAlignment="Left" Height="13" Margin="530,49,0,0" VerticalAlignment="Top" Width="149" Foreground="#FF686868"/>
+                    <Border BorderThickness="1,0,0,0" BorderBrush="#FFC3C3C3" Margin="525,1,151,9"/>
+                    <local:MyCustomComboBox x:Name="QuickAdd" HorizontalAlignment="Left" Height="29" Margin="393,6,0,0" VerticalAlignment="Top" Width="126"/>
+                </Grid>
+            </TabItem>
+            <TabItem Width="63" Header="Tools"/>
+            <TabItem Width="76" Header="Add-ons" />
+        </TabControl>
+        <Rectangle HorizontalAlignment="Stretch" RenderOptions.EdgeMode="Aliased" Height="7" StrokeThickness="2" VerticalAlignment="Top" Margin="0,205,0,0">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFD1D1D1" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+    </Grid>
+</Page>

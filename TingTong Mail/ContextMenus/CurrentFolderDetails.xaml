@@ -1,0 +1,42 @@
+﻿<Page x:Class="CurrentFolderDetails"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TingTong_Mail"
+      mc:Ignorable="d"
+      Title="CurrentFolderDetails" Background="White" Height="133.166" Width="396">
+    <Grid>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="8,21,7,12"  Background="White">
+            <Grid.Effect>
+                <DropShadowEffect Direction="250" Opacity=".7" ShadowDepth="2.4" BlurRadius="10"/>
+            </Grid.Effect>
+            <Path  x:Name="arrow" 
+                                       Stretch="Fill"
+                                       Data="M 8 9 12 12 8 15"                                        
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center" 
+                                       SnapsToDevicePixels="false" Fill="White" StrokeThickness="1.2" Margin="32.941,-13.505,336.796,95.691" Width="11.263" Height="17.814"  RenderTransformOrigin="0.5,0.5" >
+                <Path.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="270"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Path.RenderTransform>
+            </Path>
+            <TextBlock x:Name="CurrentlyDisplaying" HorizontalAlignment="Left" Margin="10,9,0,0" TextWrapping="Wrap" Text="Currently displaying :" VerticalAlignment="Top" Foreground="Black"/>
+            <TextBlock x:Name="TotalRead" HorizontalAlignment="Left" Margin="32,30,0,0" TextWrapping="Wrap" Text="Read :" VerticalAlignment="Top" Foreground="Black"/>
+            <TextBlock x:Name="TotalUnread" HorizontalAlignment="Left" Margin="32,52,0,0" TextWrapping="Wrap" Text="Unread :" VerticalAlignment="Top" Foreground="Black"/>
+            <TextBlock x:Name="TotalFlagged" HorizontalAlignment="Left" Margin="32,74,0,0" TextWrapping="Wrap" Text="Flagged :" VerticalAlignment="Top" Foreground="Black"/>
+            <TextBlock x:Name="TotalFavourites" HorizontalAlignment="Left" Margin="254,9,0,0" TextWrapping="Wrap" Text="Favourites :" VerticalAlignment="Top" Foreground="Black"/>
+            <Image x:Name="TotalReadImg" Opacity=".5" RenderOptions.BitmapScalingMode="LowQuality" Source="/icons/seen.png" Cursor="Hand" HorizontalAlignment="Left" Height="16" Margin="10,32,0,0" VerticalAlignment="Top" Width="16"/>
+            <Image x:Name="TotalUnreadImg" Opacity=".5" RenderOptions.BitmapScalingMode="LowQuality" Source="/TingTong Mail;component/icons/unseen.png" Cursor="Hand" HorizontalAlignment="Left" Height="16" Margin="10,53,0,0" VerticalAlignment="Top" Width="16"/>
+            <Image x:Name="TotalFlaggedImg" Opacity=".5" RenderOptions.BitmapScalingMode="LowQuality" Source="/TingTong Mail;component/icons/SmallFlag.png" Cursor="Hand" HorizontalAlignment="Left" Height="16" Margin="10,75,0,0" VerticalAlignment="Top" Width="16"/>
+            <Image x:Name="TotalFavouritesImg" RenderOptions.BitmapScalingMode="LowQuality" Source="/TingTong Mail;component/icons/addedtofavourites.png" Cursor="Hand" HorizontalAlignment="Left" Height="10" Margin="235,13,0,0" VerticalAlignment="Top" Width="10"/>
+
+        </Grid>
+
+    </Grid>
+</Page>

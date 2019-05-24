@@ -1,0 +1,21 @@
+﻿<Page x:Class="contextmenuForCombobox"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TingTong_Mail"
+      mc:Ignorable="d"
+      Title="contextmenuForCombobox" Height="300" Width="200">
+    <Grid x:Name="ConGrid" Background="#FFF7F7F7" Height="300" MinWidth="80" HorizontalAlignment="Stretch">
+        <Grid x:Name="ContextGrid" HorizontalAlignment="Stretch" Background="White" Margin="5,0,4,4">
+            <Grid.Effect>
+                <DropShadowEffect x:Name="Drshadow"  Color="#FFB9B9B9" BlurRadius="10" Opacity="1" ShadowDepth="2.4"/>
+            </Grid.Effect>
+            
+            <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,1,1">
+                <VirtualizingStackPanel x:Name="ItemHolder" HorizontalAlignment="Stretch" Height="1" VerticalAlignment="Top"/>
+            </ScrollViewer>
+            <StackPanel x:Name="FormattingHolder" VerticalAlignment="Top" Background="White"/>
+        </Grid>
+    </Grid>
+</Page>

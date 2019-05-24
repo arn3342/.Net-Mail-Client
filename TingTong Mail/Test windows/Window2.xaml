@@ -1,0 +1,48 @@
+﻿<Window x:Class="Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TingTong_Mail"
+        mc:Ignorable="d"
+        Title="Window2" Height="300" Width="300">
+    <Window.Resources>
+        <Style x:Key="_ListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Name="_Border"
+                                Padding="2"
+                                SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="_Border" Property="Background" Value="Yellow"/>
+                                <Setter Property="Foreground" Value="Red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="69" Margin="25,26,0,0" TextWrapping="Wrap"  Text="TextBox" VerticalAlignment="Top" Width="194"/>
+        <ListBox x:Name="lst1" ItemContainerStyle="{DynamicResource _ListBoxItemStyle}" Visibility="Hidden" HorizontalAlignment="Left" Height="100" Margin="25,141,0,0" VerticalAlignment="Top" Width="194">
+            <TextBlock Text="abc" Width="153"/>
+            <TextBlock Text="def" Width="156"/>
+            <TextBlock Text="def" Width="156"/>
+            <TextBlock Text="def" Width="156"/>
+            <TextBlock Text="def" Width="156"/>
+            <TextBlock Text="def" Width="156"/>
+            <TextBlock Text="def" Width="156"/>
+            
+            <TextBlock/>
+            <TextBlock/>
+            <TextBlock/>
+        </ListBox>
+        <TextBlock x:Name="textBlock1"  HorizontalAlignment="Left" Margin="49,100,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="24" Width="206" FontSize="15" Foreground="Red"/>
+
+    </Grid>
+</Window>

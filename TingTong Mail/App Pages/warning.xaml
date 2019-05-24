@@ -1,0 +1,188 @@
+﻿<Page x:Class="warning"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TingTong_Mail"
+      mc:Ignorable="d" 
+      d:DesignHeight="260" d:DesignWidth="517" 
+      Title="warning" Loaded="Page_Loaded">
+    <Grid>
+        <Label x:Name="label" Content="Just a moment.." HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="34" Foreground="#FF878787" Width="233" Height="57" Margin="145,30,0,0" FontFamily="Segoe UI Light">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="Label.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard TargetProperty="Opacity">
+                                        <DoubleAnimation  Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.9" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+        <Grid HorizontalAlignment="Left" Visibility="hidden" Name="failgrid" Height="173" Margin="114,87,0,0" VerticalAlignment="Top" Width="302">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="Grid.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard TargetProperty="Opacity">
+                                        <DoubleAnimation  Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.9" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Label   x:Name="Failed" Content="Failed to log in/connect to server!" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" Foreground="#FF878787" Width="321" Height="35" Margin="15,21,-34,0" FontFamily="Segoe UI">
+                <Label.Style>
+                    <Style TargetType="{x:Type Label}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetProperty="Opacity">
+                                        <DoubleAnimation  Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.9" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+            <Label x:Name="details" Cursor="Hand" Content="Details" HorizontalAlignment="Left" Margin="17,46,0,0" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="9.5" Foreground="#FF9C9B9B"/>
+            <Rectangle x:Name="dtlsrect" Fill="#FFBBBABA" HorizontalAlignment="Left" Height="1" Margin="21,61,0,0" RadiusY="0" RadiusX="0" Stroke="#FF7C7C7C" StrokeThickness="0" VerticalAlignment="Top" Width="32"/>
+            <Rectangle x:Name="back" Visibility="visible" Fill="White"  HorizontalAlignment="Left" Height="29" Margin="66,134,0,0" Stroke="#FF7C7C7C" VerticalAlignment="Top" Width="77" RadiusX="15" RadiusY="15" StrokeThickness="1.4" MouseDown="back_MouseDown">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ParallelTimeline  >
+                                            <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF424242" Duration="0:0:0.1" />
+                                        </ParallelTimeline>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ParallelTimeline>
+                                            <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FFFFFFFF" Duration="0:0:0.1" />
+                                        </ParallelTimeline>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+            <Image x:Name="back2" Visibility="visible" IsHitTestVisible="false" HorizontalAlignment="Left" Height="9" Margin="78,144,0,0" VerticalAlignment="Top" Width="6" Source="/icons/lgicon.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-180"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Rectangle x:Name="retry" Visibility="visible"  Fill="White"  HorizontalAlignment="Left" Height="29" Margin="150,134,0,0" Stroke="#FF7C7C7C" VerticalAlignment="Top" Width="71" RadiusX="15" RadiusY="15" StrokeThickness="1.4" MouseDown="next2_MouseDown">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ParallelTimeline  >
+                                            <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF424242" Duration="0:0:0.1" />
+                                        </ParallelTimeline>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ParallelTimeline>
+                                            <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FFFFFFFF" Duration="0:0:0.1" />
+                                        </ParallelTimeline>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+            <Label x:Name="tryagain" Visibility="visible" Content="Try again" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="159,136,0,0" VerticalAlignment="Top" FontSize="11" Foreground="#FF9C9B9B" Height="28" Width="54"/>
+            <Label x:Name="goback" Visibility="visible" Content="Go back" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="85,136,0,0" VerticalAlignment="Top" FontSize="11" Foreground="#FF9C9B9B" Height="25" Width="54"/>
+        </Grid>
+        <Image x:Name="anim" RenderOptions.BitmapScalingMode="Fant" IsHitTestVisible="false" HorizontalAlignment="Left" Height="34" Width="38"  Margin="242,99,0,0" VerticalAlignment="Top">
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity">
+                                    <DoubleAnimation  Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.9" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+        <Grid HorizontalAlignment="Left" Visibility="hidden" Name="Startgrid" Height="59" Margin="160,87,0,0" VerticalAlignment="Top" Width="178">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="Grid.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard TargetProperty="Opacity">
+                                        <DoubleAnimation  Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.9" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Rectangle x:Name="next2" Visibility="visible"  Fill="White"  HorizontalAlignment="Left" Height="33" Margin="44,14,0,0" Stroke="#FF7C7C7C" VerticalAlignment="Top" Width="96" RadiusX="17" RadiusY="17" StrokeThickness="1.4" MouseDown="next2_MouseDown">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ParallelTimeline  >
+                                            <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF424242" Duration="0:0:0.1" />
+                                        </ParallelTimeline>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ParallelTimeline>
+                                            <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FFFFFFFF" Duration="0:0:0.1" />
+                                        </ParallelTimeline>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+            <Label x:Name="next0" Visibility="visible" Content="Let's start" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="53,15,0,0" VerticalAlignment="Top" FontSize="14" Foreground="#FF9C9B9B" Height="29" Width="68"/>
+            <Image x:Name="next1" Visibility="visible" IsHitTestVisible="false" HorizontalAlignment="Left" Height="9" Margin="124,26,0,0" VerticalAlignment="Top" Width="6" Source="/icons/lgicon.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5"/>
+        </Grid>
+
+    </Grid>
+</Page>

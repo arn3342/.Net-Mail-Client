@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="emailUserList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TingTong_Mail"
+          mc:Ignorable="d" Height="46" Width="750" Background="White">
+    <UserControl.Resources>
+        <Storyboard x:Key="ShowDelete">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" To="0,0,0,0" Duration="0:0:0.1">
+                <ThicknessAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut"/>
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
+        </Storyboard>
+        <Storyboard x:Key="HideDelete">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" To="0,-46,0,46" Duration="0:0:0.1">
+                <ThicknessAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseIn"/>
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Background).Color" To="#FFEEEEEE" Duration="0:0:0.1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Background).Color" To="White" Duration="0:0:0.1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    <Grid>
+        <Rectangle HorizontalAlignment="Left" Height="32" Margin="10,8,0,0" RadiusX="45" RadiusY="45" VerticalAlignment="Top" Width="32">
+            <Rectangle.Fill>
+                <ImageBrush x:Name="userphoto" ImageSource="/icons/usericon.png" RenderOptions.BitmapScalingMode="Fant"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Label x:Name="name" MaxWidth="190" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Foreground="#FF5D5D5D" Margin="51,11,0,0">
+            <TextBlock x:Name="UserName" Text="No name added yet" TextTrimming="CharacterEllipsis" Width="119"/>
+        </Label>
+        <Label x:Name="name_Copy" MaxWidth="195" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Foreground="#FF5D5D5D" Margin="184,11,0,0">
+            <TextBlock x:Name="UserEmail" Text="nabilrashid44@gmail.com" TextTrimming="CharacterEllipsis" Width="142"/>
+        </Label>
+        <Rectangle Fill="#FF83C1FF" x:Name="LogInBtn" Cursor="Hand" HorizontalAlignment="Left" Height="32" Margin="594,8,0,0" VerticalAlignment="Top" Width="77" RenderTransformOrigin="0.5,0.5">
+            <Rectangle.Style>
+                <Style TargetType="{x:Type Rectangle}">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF3393F3" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF83C1FF" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
+        <Image x:Name="addImg" RenderOptions.BitmapScalingMode="Fant"  IsHitTestVisible="False" HorizontalAlignment="Left" Height="20" Margin="646,14,0,0" VerticalAlignment="Top" Source="/icons/enter.png"  Width="20"/>
+        <TextBlock x:Name="textBlock_Copy" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="603,14,0,0" TextWrapping="Wrap" Text="Log in" VerticalAlignment="Top" Width="44" Foreground="White" FontSize="14"/>
+        <Image x:Name="deletebtn" Cursor="Hand" RenderOptions.BitmapScalingMode="Fant" Opacity=".4" HorizontalAlignment="Left" Height="20" Margin="692,14,0,0" VerticalAlignment="Top" Source="/icons/close.png"  Width="20">
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To=".4" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+        <TextBlock x:Name="LastLogin" HorizontalAlignment="Left" Margin="352,16,0,0" TextWrapping="Wrap" Text="Last log in :" VerticalAlignment="Top" Width="155" Foreground="#FF5D5D5D"/>
+        <Grid x:Name="DeleteGrid"  Background="White" Grid.RowSpan="1" Margin="0,-46,0,46" >
+            <Grid.Style>
+                <Style TargetType="{x:Type Grid}">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="(Background).Color" To="#FFEEEEEE" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="(Background).Color" To="White" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <TextBlock x:Name="warning" HorizontalAlignment="Left" Margin="10,13,0,0" TextWrapping="Wrap" Text="Are you sure you want to remove this email ? This will permanently delete the email." VerticalAlignment="Top" Foreground="#FF575757" FontSize="15"/>
+            <Rectangle Fill="#FF83C1FF" x:Name="YesBtn" Cursor="Hand" HorizontalAlignment="Left" Height="26" Margin="610,10,0,0" VerticalAlignment="Top" Width="51" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF3393F3" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF83C1FF" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+            <Rectangle Fill="#FF83C1FF" x:Name="NoBtn" Cursor="Hand" HorizontalAlignment="Left" Height="26" Margin="675,10,0,0" VerticalAlignment="Top" Width="51" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF3393F3" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="Fill.Color" To="#FF83C1FF" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+            <TextBlock x:Name="textBlock_Copy1" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="623,13,0,0" TextWrapping="Wrap" Text="Yes" VerticalAlignment="Top" Width="29" Foreground="White" FontSize="14"/>
+            <TextBlock x:Name="textBlock_Copy2" IsHitTestVisible="False" HorizontalAlignment="Left" Margin="690,14,0,0" TextWrapping="Wrap" Text="No" VerticalAlignment="Top" Width="23" Foreground="White" FontSize="14"/>
+            <Rectangle Fill="#FF007FFD" HorizontalAlignment="Left" Height="46" VerticalAlignment="Top" Width="3"/>
+        </Grid>
+    </Grid>
+
+</UserControl>
